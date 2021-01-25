@@ -114,6 +114,17 @@ export default function App() {
 		startup();
 	}, []);
 
+	useEffect(() => {
+		setObjectValue(activeList.title, activeList);
+	}, [activeList]);
+
+	function pushListItem(newItem: string) {
+		setActiveList({
+			title: activeList.title,
+			items: [...activeList.items, newItem],
+		});
+	}
+
 	return (
 		<NavigationContainer>
 			<Stack.Navigator>
@@ -123,7 +134,7 @@ export default function App() {
 					{(props) => (
 						<ListScreen
 							list={activeList}
-							onSubmit={(text: string) => console.log(text)}
+							onSubmit={(text: string) => pushListItem(text)}
 						/>
 					)}
 				</Stack.Screen>
