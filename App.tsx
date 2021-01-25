@@ -20,11 +20,6 @@ interface List {
 	items: string[];
 }
 
-const DATA: List = {
-	title: "sample list",
-	items: ["apples", "bananas", "steak"],
-};
-
 let getAllKeys = async (): Promise<string[]> => {
 	let keys: string[] = [];
 	try {
@@ -163,8 +158,8 @@ interface ListScreenProps {
 	list: List;
 	onSubmit: Function;
 }
+
 function ListScreen({ list, onSubmit }: ListScreenProps) {
-	const [textEntered, setTextEntered] = useState<string>("");
 	return (
 		<View style={styles.container}>
 			<StatusBar style="auto" />
@@ -177,27 +172,7 @@ function ListScreen({ list, onSubmit }: ListScreenProps) {
 					)}
 				/>
 			</View>
-			<View style={{ flexDirection: "row", alignSelf: "stretch" }}>
-				<TextInput
-					style={{
-						flex: 1,
-						borderColor: "#888",
-						borderWidth: StyleSheet.hairlineWidth,
-						fontSize: 20,
-					}}
-					value={textEntered}
-					onChangeText={(text) => setTextEntered(text)}
-				/>
-				<TouchableOpacity
-					onPress={() => {
-						onSubmit(textEntered);
-						setTextEntered("");
-					}}
-					style={{ backgroundColor: "blue", padding: 20 }}
-				>
-					<Text style={{ fontSize: 20, color: "#fff" }}>Add to list</Text>
-				</TouchableOpacity>
-			</View>
+			<InputRow onSubmit={onSubmit} />
 		</View>
 	);
 }
@@ -209,6 +184,38 @@ Flatlist
   list items w/gesture and pressable support
 Enter new item
 */
+
+interface InputRowProps {
+	onSubmit: Function;
+}
+
+function InputRow({ onSubmit }: InputRowProps) {
+	const [textEntered, setTextEntered] = useState<string>("");
+	return (
+		<View style={{ flexDirection: "row", alignSelf: "stretch" }}>
+			<TextInput
+				style={{
+					flex: 1,
+					borderColor: "#888",
+					borderWidth: StyleSheet.hairlineWidth,
+					fontSize: 20,
+				}}
+				value={textEntered}
+				onChangeText={(text) => setTextEntered(text)}
+				autoCapitalize="words"
+			/>
+			<TouchableOpacity
+				onPress={() => {
+					onSubmit(textEntered);
+					setTextEntered("");
+				}}
+				style={{ backgroundColor: "blue", padding: 20 }}
+			>
+				<Text style={{ fontSize: 20, color: "#fff" }}>Add to list</Text>
+			</TouchableOpacity>
+		</View>
+	);
+}
 
 const styles = StyleSheet.create({
 	container: {
