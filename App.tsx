@@ -7,6 +7,7 @@ import {
 	TextInput,
 	TouchableOpacity,
 	View,
+	Button,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -77,6 +78,15 @@ export default function App() {
 			>
 				<Stack.Screen
 					name={activeList.title == undefined ? " " : activeList.title}
+					options={{
+						headerRight: () => (
+							<Button
+								onPress={() => alert("This is a button!")}
+								title="Info"
+								color="gray"
+							/>
+						),
+					}}
 				>
 					{(props) => (
 						<ListScreen
