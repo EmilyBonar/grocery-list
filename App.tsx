@@ -60,6 +60,13 @@ export default function App() {
 		});
 	}
 
+	function removeListItem(removedItem: string) {
+		setActiveList({
+			title: activeList.title,
+			items: activeList.items.filter((item) => item !== removedItem),
+		});
+	}
+
 	return (
 		<NavigationContainer>
 			<Stack.Navigator>
@@ -70,6 +77,7 @@ export default function App() {
 						<ListScreen
 							list={activeList}
 							onSubmit={(text: string) => pushListItem(text)}
+							onDelete={(removedItem: string) => removeListItem(removedItem)}
 						/>
 					)}
 				</Stack.Screen>
@@ -78,38 +86,35 @@ export default function App() {
 	);
 }
 
-interface ListItemProps {
-	text: string;
-	onPress: any;
-}
-
-function ListItem({ text, onPress }: ListItemProps) {
-	return (
-		<Pressable
-			onPress={onPress}
-			onLongPress={() => console.log("longpress")}
-			style={{ padding: 20, flexDirection: "row" }}
-		>
-			<Text>{text}</Text>
-		</Pressable>
-	);
-}
 interface ListScreenProps {
 	list: List;
 	onSubmit: Function;
+	onDelete: Function;
 }
 
-function ListScreen({ list, onSubmit }: ListScreenProps) {
+function ListScreen({ list, onSubmit, onDelete }: ListScreenProps) {
 	return (
 		<View style={styles.container}>
 			<StatusBar style="auto" />
-			<View style={{ flex: 1, alignSelf: "stretch", flexDirection: "row" }}>
+			<View
+				style={{
+					flex: 1,
+					alignSelf: "stretch",
+					flexDirection: "row",
+					backgroundColor: "lightgray",
+				}}
+			>
 				<FlatList
 					style={{}}
 					data={list.items}
 					renderItem={({ item, index, separators }) => (
-						<ListItem onPress={() => alert(item)} text={item} />
+						<ListItem
+							onPress={(text: string) => alert(text)}
+							text={item}
+							onDelete={onDelete}
+						/>
 					)}
+					keyExtractor={(item) => item}
 				/>
 			</View>
 			<InputRow onSubmit={onSubmit} />
@@ -125,6 +130,39 @@ Flatlist
 Enter new item
 */
 
+interface ListItemProps {
+	text: string;
+	onPress: Function;
+	onDelete: Function;
+}
+
+function ListItem({ text, onPress, onDelete }: ListItemProps) {
+	return (
+		<View
+			style={{
+				flexDirection: "row",
+				backgroundColor: "white",
+				margin: 10,
+				padding: 20,
+			}}
+		>
+			<Pressable
+				onPress={() => onPress(text)}
+				onLongPress={() => console.log("longpress")}
+				style={{ flexGrow: 1 }}
+			>
+				<Text>{text}</Text>
+			</Pressable>
+			<Pressable
+				style={{ backgroundColor: "gray" }}
+				onPress={() => onDelete(text)}
+			>
+				<Text style={{ color: "white" }}>Delete</Text>
+			</Pressable>
+		</View>
+	);
+}
+
 interface InputRowProps {
 	onSubmit: Function;
 }
@@ -136,9 +174,10 @@ function InputRow({ onSubmit }: InputRowProps) {
 			<TextInput
 				style={{
 					flex: 1,
-					borderColor: "#888",
+					borderColor: "gray",
 					borderWidth: StyleSheet.hairlineWidth,
 					fontSize: 20,
+					padding: 10,
 				}}
 				value={textEntered}
 				onChangeText={(text) => setTextEntered(text)}
@@ -149,7 +188,7 @@ function InputRow({ onSubmit }: InputRowProps) {
 					onSubmit(textEntered);
 					setTextEntered("");
 				}}
-				style={{ backgroundColor: "blue", padding: 20 }}
+				style={{ backgroundColor: "gray", padding: 20 }}
 			>
 				<Text style={{ fontSize: 20, color: "#fff" }}>Add to list</Text>
 			</TouchableOpacity>
