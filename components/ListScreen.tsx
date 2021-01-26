@@ -11,6 +11,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 
 interface List {
+	id: string;
 	title: string;
 	items: string[];
 }
@@ -47,7 +48,7 @@ export default function ListScreen({
 							onDelete={onDelete}
 						/>
 					)}
-					keyExtractor={(item) => item}
+					keyExtractor={(item, index) => item + index.toString()}
 				/>
 			</View>
 			<InputRow onSubmit={onSubmit} />

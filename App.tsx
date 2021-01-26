@@ -21,10 +21,12 @@ import {
 } from "./components/storage";
 import ListScreen from "./components/ListScreen";
 import ListOptionsScreen from "./components/ListOptionsScreen";
+import Svg, { Path } from "react-native-svg";
 
 const Stack = createStackNavigator();
 
 interface List {
+	id: string;
 	title: string;
 	items: string[];
 }
@@ -37,7 +39,11 @@ export default function App() {
 			let keys: string[] = await getAllKeys();
 			//if empty, create empty default list and active list
 			if (keys.length === 0) {
-				let emptyList = { title: "Default List", items: [] };
+				let emptyList = {
+					id: "Default List",
+					title: "Default List",
+					items: [],
+				};
 				setObjectValue(emptyList.title, emptyList);
 				setStringValue("activeList", "Default List");
 				setActiveList(emptyList);
@@ -57,6 +63,7 @@ export default function App() {
 
 	function pushListItem(newItem: string) {
 		setActiveList({
+			id: activeList.title,
 			title: activeList.title,
 			items: [...activeList.items, newItem],
 		});
@@ -64,6 +71,7 @@ export default function App() {
 
 	function removeListItem(removedItem: string) {
 		setActiveList({
+			id: activeList.title,
 			title: activeList.title,
 			items: activeList.items.filter((item) => item !== removedItem),
 		});
@@ -78,15 +86,29 @@ export default function App() {
 			>
 				<Stack.Screen
 					name={activeList.title == undefined ? " " : activeList.title}
-					options={{
+					options={({ navigation, route }) => ({
 						headerRight: () => (
-							<Button
-								onPress={() => alert("This is a button!")}
-								title="Info"
-								color="gray"
-							/>
+							<Pressable
+								style={{ width: 24, height: 24, margin: 20 }}
+								onPress={() => navigation.navigate("List Options")}
+							>
+								<Svg fill="none" viewBox="0 0 24 24" stroke="gray">
+									<Path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+									/>
+									<Path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+									/>
+								</Svg>
+							</Pressable>
 						),
-					}}
+					})}
 				>
 					{(props) => (
 						<ListScreen
