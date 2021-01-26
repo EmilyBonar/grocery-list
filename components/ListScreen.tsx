@@ -11,7 +11,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 
 interface List {
-	id: string;
+	id?: string;
 	title: string;
 	items: string[];
 }
@@ -67,10 +67,11 @@ Enter new item
 interface ListItemProps {
 	text: string;
 	onPress: Function;
+	onLongPress?: Function;
 	onDelete: Function;
 }
 
-function ListItem({ text, onPress, onDelete }: ListItemProps) {
+function ListItem({ text, onPress, onLongPress, onDelete }: ListItemProps) {
 	return (
 		<View
 			style={{
@@ -82,7 +83,11 @@ function ListItem({ text, onPress, onDelete }: ListItemProps) {
 		>
 			<Pressable
 				onPress={() => onPress(text)}
-				onLongPress={() => console.log("longpress")}
+				onLongPress={() => {
+					if (onLongPress != undefined) {
+						onLongPress(text);
+					}
+				}}
 				style={{ flexGrow: 1 }}
 			>
 				<Text>{text}</Text>

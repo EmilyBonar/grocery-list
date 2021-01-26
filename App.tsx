@@ -118,7 +118,15 @@ export default function App() {
 						/>
 					)}
 				</Stack.Screen>
-				<Stack.Screen name="List Options" component={ListOptionsScreen} />
+				<Stack.Screen name="List Options">
+					{(props) => (
+						<ListOptionsScreen
+							lists={[activeList]}
+							onSubmit={(text: string) => pushListItem(text)}
+							onDelete={(removedItem: string) => removeListItem(removedItem)}
+						/>
+					)}
+				</Stack.Screen>
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
