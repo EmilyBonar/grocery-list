@@ -11,7 +11,14 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+	getAllKeys,
+	setObjectValue,
+	setStringValue,
+	getMyObject,
+	getMyStringValue,
+	removeValue,
+} from "./components/storage";
 
 const Stack = createStackNavigator();
 
@@ -19,73 +26,6 @@ interface List {
 	title: string;
 	items: string[];
 }
-
-let getAllKeys = async (): Promise<string[]> => {
-	let keys: string[] = [];
-	try {
-		keys = await AsyncStorage.getAllKeys();
-	} catch (e) {
-		// read key error
-	}
-
-	return keys;
-	// example console.log result:
-	// ['@MyApp_user', '@MyApp_key']
-};
-
-let getMyStringValue = async (key: string): Promise<string> => {
-	try {
-		let value = await AsyncStorage.getItem(key);
-		return value != null ? value : "";
-	} catch (e) {
-		// read error
-		return "";
-	}
-
-	console.log("Done.");
-};
-
-let getMyObject = async (key: string): Promise<object> => {
-	try {
-		const jsonValue = await AsyncStorage.getItem(key);
-		return jsonValue != null ? JSON.parse(jsonValue) : null;
-	} catch (e) {
-		// read error
-		return {};
-	}
-
-	console.log("Done.");
-};
-let setStringValue = async (key: string, value: string) => {
-	try {
-		await AsyncStorage.setItem(key, value);
-	} catch (e) {
-		// save error
-	}
-
-	console.log("Done.");
-};
-
-let setObjectValue = async (key: string, value: object) => {
-	try {
-		const jsonValue = JSON.stringify(value);
-		await AsyncStorage.setItem(key, jsonValue);
-	} catch (e) {
-		// save error
-	}
-
-	console.log("Done.");
-};
-
-let removeValue = async (key: string) => {
-	try {
-		await AsyncStorage.removeItem(key);
-	} catch (e) {
-		// remove error
-	}
-
-	console.log("Done.");
-};
 
 export default function App() {
 	const [activeList, setActiveList] = useState<List>({} as List);
