@@ -18,6 +18,7 @@ import {
 	getMyObject,
 	getMyStringValue,
 	removeValue,
+	clearAll,
 } from "./components/storage";
 import ListScreen from "./components/ListScreen";
 import ListOptionsScreen from "./components/ListOptionsScreen";
