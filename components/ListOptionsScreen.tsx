@@ -15,6 +15,7 @@ import InputRow from "./InputRow";
 
 export default function ListOptionsScreen({
 	lists,
+	onSwitch,
 	onSubmit,
 	onDelete,
 }: ListOptionsScreenProps) {
@@ -33,7 +34,7 @@ export default function ListOptionsScreen({
 					data={lists}
 					renderItem={({ item, index, separators }) => (
 						<ListItem
-							onPress={(text: string) => alert(text)}
+							onPress={(text: string) => onSwitch(text)}
 							text={item.id}
 							onDelete={onDelete}
 						/>

@@ -117,6 +117,7 @@ export default function App() {
 					{(props) => (
 						<ListOptionsScreen
 							lists={allLists}
+							onSwitch={(text: string) => console.log(text)}
 							onSubmit={(text: string) => pushList(text)}
 							onDelete={(removedList: string) => removeList(removedList)}
 						/>

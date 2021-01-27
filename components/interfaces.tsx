@@ -11,6 +11,7 @@ export interface ListScreenProps {
 
 export interface ListOptionsScreenProps {
 	lists: List[];
+	onSwitch: Function;
 	onSubmit: Function;
 	onDelete: Function;
 }
