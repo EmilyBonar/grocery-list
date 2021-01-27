@@ -90,6 +90,18 @@ export default function App() {
 		).then((lists) => setAllLists(lists as List[]));
 	}
 
+	function findList(searchKey: string): List | undefined {
+		return allLists.find((list) => list.id == searchKey);
+	}
+
+	function switchLists(newKey: string) {
+		let newActiveList = findList(newKey);
+		if (newActiveList) {
+			setActiveList(newActiveList);
+			setStringValue("activeList", newActiveList.id);
+		}
+	}
+
 	return (
 		<NavigationContainer>
 			<Stack.Navigator
@@ -117,7 +129,10 @@ export default function App() {
 					{(props) => (
 						<ListOptionsScreen
 							lists={allLists}
-							onSwitch={(text: string) => console.log(text)}
+							onSwitch={(text: string) => {
+								switchLists(text);
+								props.navigation.goBack();
+							}}
 							onSubmit={(text: string) => pushList(text)}
 							onDelete={(removedList: string) => removeList(removedList)}
 						/>
