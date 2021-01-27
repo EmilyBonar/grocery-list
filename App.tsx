@@ -33,6 +33,7 @@ interface List {
 
 export default function App() {
 	const [activeList, setActiveList] = useState<List>({} as List);
+	const [allLists, setAllLists] = useState<List[]>([]);
 	useEffect(() => {
 		async function startup() {
 			//storage getAllKeys
@@ -60,6 +61,18 @@ export default function App() {
 	useEffect(() => {
 		setObjectValue(activeList.title, activeList);
 	}, [activeList]);
+
+	useEffect(() => {
+		async function getLists() {
+			let keys: string[] = await getAllKeys();
+			Promise.all(
+				keys
+					.filter((key) => key !== "activeList" && key !== "undefined")
+					.map((key) => getMyObject(key)),
+			).then((lists) => console.log(lists));
+		}
+		getLists();
+	});
 
 	function pushListItem(newItem: string) {
 		setActiveList({
