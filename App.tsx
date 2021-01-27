@@ -43,31 +43,21 @@ export default function App() {
 				setObjectValue(emptyList.title, emptyList);
 				setStringValue("activeList", "Default List");
 				setActiveList(emptyList);
+				setAllLists([emptyList]);
 			} else {
 				//if not empty, setActiveList to active list
 				setActiveList(
 					(await getMyObject(await getMyStringValue("activeList"))) as List,
 				);
+				Promise.all(
+					keys
+						.filter((key) => key !== "activeList" && key !== "undefined")
+						.map((key) => getMyObject(key)),
+				).then((lists) => setAllLists(lists as List[]));
 			}
 		}
 		startup();
 	}, []);
-
-	useEffect(() => {
-		setObjectValue(activeList.title, activeList);
-	}, [activeList]);
-
-	useEffect(() => {
-		async function getLists() {
-			let keys: string[] = await getAllKeys();
-			Promise.all(
-				keys
-					.filter((key) => key !== "activeList" && key !== "undefined")
-					.map((key) => getMyObject(key)),
-			).then((lists) => console.log(lists));
-		}
-		getLists();
-	});
 
 	function pushListItem(newItem: string) {
 		setActiveList({
@@ -83,6 +73,16 @@ export default function App() {
 			title: activeList.title,
 			items: activeList.items.filter((item) => item !== removedItem),
 		});
+	}
+
+	function pushList(newKey: string) {
+		if (!allLists.map((list) => list.title).includes(newKey)) {
+			setObjectValue(newKey, { id: newKey, title: newKey, items: [] });
+		}
+	}
+
+	function removeList(removedKey: string) {
+		removeValue(removedKey);
 	}
 
 	return (
@@ -113,9 +113,9 @@ export default function App() {
 				<Stack.Screen name="List Options">
 					{(props) => (
 						<ListOptionsScreen
-							lists={[activeList]}
-							onSubmit={(text: string) => pushListItem(text)}
-							onDelete={(removedItem: string) => removeListItem(removedItem)}
+							lists={allLists}
+							onSubmit={(text: string) => pushList(text)}
+							onDelete={(removedList: string) => removeList(removedList)}
 						/>
 					)}
 				</Stack.Screen>
