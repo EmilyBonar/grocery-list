@@ -59,7 +59,7 @@ export function AddButton({ onPress }: ButtonProps) {
 			onPress={() => {
 				onPress();
 			}}
-			style={{ width: 48, height: 48, margin: 0, backgroundColor: "lightgray" }}
+			style={{ width: 48, height: 48, margin: 0 }}
 		>
 			<Svg fill="none" viewBox="0 0 24 24" stroke="gray">
 				<Path

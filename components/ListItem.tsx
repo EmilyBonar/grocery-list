@@ -35,7 +35,7 @@ export default function ListItem({
 			>
 				<Text>{text}</Text>
 			</Pressable>
-			<DeleteButton onPress={() => onDelete(text)} text={text} />
+			<DeleteButton onPress={() => onDelete(text)} />
 		</View>
 	);
 }

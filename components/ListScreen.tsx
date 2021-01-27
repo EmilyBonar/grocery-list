@@ -4,7 +4,6 @@ import {
 	StyleSheet,
 	Text,
 	TextInput,
-	TouchableOpacity,
 	View,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
@@ -73,12 +72,18 @@ interface InputRowProps {
 function InputRow({ onSubmit }: InputRowProps) {
 	const [textEntered, setTextEntered] = useState<string>("");
 	return (
-		<View style={{ flexDirection: "row", alignSelf: "stretch" }}>
+		<View
+			style={{
+				flexDirection: "row",
+				alignSelf: "stretch",
+				borderColor: "gray",
+				borderTopWidth: StyleSheet.hairlineWidth,
+				backgroundColor: "white",
+			}}
+		>
 			<TextInput
 				style={{
 					flex: 1,
-					borderColor: "gray",
-					borderWidth: StyleSheet.hairlineWidth,
 					fontSize: 20,
 					padding: 10,
 				}}
