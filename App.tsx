@@ -36,12 +36,11 @@ export default function App() {
 			let keys: string[] = await getAllKeys();
 			//if empty, create empty default list and active list
 			if (keys.length === 0) {
-				let emptyList = {
+				let emptyList: List = {
 					id: "Default List",
-					title: "Default List",
 					items: [],
 				};
-				setObjectValue(emptyList.title, emptyList);
+				setObjectValue(emptyList.id, emptyList);
 				setStringValue("activeList", "Default List");
 				setActiveList(emptyList);
 				setAllLists([emptyList]);
@@ -58,22 +57,20 @@ export default function App() {
 
 	function pushListItem(newItem: string) {
 		setActiveList({
-			id: activeList.title,
-			title: activeList.title,
+			id: activeList.id,
 			items: [...activeList.items, newItem],
 		});
 	}
 
 	function removeListItem(removedItem: string) {
 		setActiveList({
-			id: activeList.title,
-			title: activeList.title,
+			id: activeList.id,
 			items: activeList.items.filter((item) => item !== removedItem),
 		});
 	}
 
 	function pushList(newKey: string) {
-		if (!allLists.map((list) => list.title).includes(newKey)) {
+		if (!allLists.map((list) => list.id).includes(newKey)) {
 			setObjectValue(newKey, { id: newKey, title: newKey, items: [] });
 		}
 		updateLists();
@@ -96,12 +93,10 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			<Stack.Navigator
-				initialRouteName={
-					activeList.title == undefined ? " " : activeList.title
-				}
+				initialRouteName={activeList.id == undefined ? " " : activeList.id}
 			>
 				<Stack.Screen
-					name={activeList.title == undefined ? " " : activeList.title}
+					name={activeList.id == undefined ? " " : activeList.id}
 					options={({ navigation, route }) => ({
 						headerRight: () => (
 							<SettingsButton

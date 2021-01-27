@@ -34,7 +34,7 @@ export default function ListOptionsScreen({
 					renderItem={({ item, index, separators }) => (
 						<ListItem
 							onPress={(text: string) => alert(text)}
-							text={item.title}
+							text={item.id}
 							onDelete={onDelete}
 						/>
 					)}
