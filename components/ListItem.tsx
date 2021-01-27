@@ -1,27 +1,25 @@
 import { Pressable, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { DeleteButton } from "./Buttons";
-
-interface ListItemProps {
-	text: string;
-	onPress: Function;
-	onLongPress?: Function;
-	onDelete: Function;
-}
+import { ListItemProps } from "./interfaces";
 
 export default function ListItem({
 	text,
+	details,
 	onPress,
 	onLongPress,
 	onDelete,
 }: ListItemProps) {
+	if (details) {
+		console.log(details);
+	}
 	return (
 		<View
 			style={{
 				flexDirection: "row",
 				backgroundColor: "white",
 				margin: 10,
-				padding: 20,
+				padding: 10,
 			}}
 		>
 			<Pressable
@@ -33,7 +31,16 @@ export default function ListItem({
 				}}
 				style={{ flexGrow: 1 }}
 			>
-				<Text>{text}</Text>
+				<Text
+					style={{
+						textTransform: "capitalize",
+						fontSize: 18,
+						fontWeight: "bold",
+						color: "dimgray",
+					}}
+				>
+					{text}
+				</Text>
 			</Pressable>
 			<DeleteButton onPress={() => onDelete(text)} />
 		</View>

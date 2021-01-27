@@ -10,18 +10,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
-
-interface List {
-	id?: string;
-	title: string;
-	items: string[];
-}
-
-interface ListOptionsScreenProps {
-	lists: List[];
-	onSubmit: Function;
-	onDelete: Function;
-}
+import { ListOptionsScreenProps } from "./interfaces";
 
 export default function ListOptionsScreen({
 	lists,

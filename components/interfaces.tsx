@@ -1,0 +1,29 @@
+export interface List {
+	id?: string;
+	title: string;
+	items: string[];
+}
+
+export interface ListScreenProps {
+	list: List;
+	onSubmit: Function;
+	onDelete: Function;
+}
+
+export interface ListOptionsScreenProps {
+	lists: List[];
+	onSubmit: Function;
+	onDelete: Function;
+}
+
+export interface InputRowProps {
+	onSubmit: Function;
+}
+
+export interface ListItemProps {
+	text: string;
+	details?: object[];
+	onPress: Function;
+	onLongPress?: Function;
+	onDelete: Function;
+}

@@ -10,18 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
 import { AddButton } from "./Buttons";
-
-interface List {
-	id?: string;
-	title: string;
-	items: string[];
-}
-
-interface ListScreenProps {
-	list: List;
-	onSubmit: Function;
-	onDelete: Function;
-}
+import { ListScreenProps, InputRowProps } from "./interfaces";
 
 export default function ListScreen({
 	list,
@@ -64,10 +53,6 @@ Flatlist
   list items w/gesture and pressable support
 Enter new item
 */
-
-interface InputRowProps {
-	onSubmit: Function;
-}
 
 function InputRow({ onSubmit }: InputRowProps) {
 	const [textEntered, setTextEntered] = useState<string>("");

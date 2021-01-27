@@ -22,14 +22,9 @@ import {
 import ListScreen from "./components/ListScreen";
 import ListOptionsScreen from "./components/ListOptionsScreen";
 import { SettingsButton } from "./components/Buttons";
+import { List } from "./components/interfaces";
 
 const Stack = createStackNavigator();
-
-interface List {
-	id: string;
-	title: string;
-	items: string[];
-}
 
 export default function App() {
 	const [activeList, setActiveList] = useState<List>({} as List);
