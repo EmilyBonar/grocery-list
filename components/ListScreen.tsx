@@ -10,6 +10,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
+import { AddButton } from "./Buttons";
 
 interface List {
 	id?: string;
@@ -85,15 +86,12 @@ function InputRow({ onSubmit }: InputRowProps) {
 				onChangeText={(text) => setTextEntered(text)}
 				autoCapitalize="words"
 			/>
-			<TouchableOpacity
+			<AddButton
 				onPress={() => {
 					onSubmit(textEntered);
 					setTextEntered("");
 				}}
-				style={{ backgroundColor: "gray", padding: 20 }}
-			>
-				<Text style={{ fontSize: 20, color: "#fff" }}>Add to list</Text>
-			</TouchableOpacity>
+			/>
 		</View>
 	);
 }
