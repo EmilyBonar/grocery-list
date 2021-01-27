@@ -9,8 +9,8 @@ import {
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
-import { AddButton } from "./Buttons";
-import { ListScreenProps, InputRowProps } from "./interfaces";
+import { ListScreenProps } from "./interfaces";
+import InputRow from "./InputRow";
 
 export default function ListScreen({
 	list,
@@ -53,35 +53,3 @@ Flatlist
   list items w/gesture and pressable support
 Enter new item
 */
-
-function InputRow({ onSubmit }: InputRowProps) {
-	const [textEntered, setTextEntered] = useState<string>("");
-	return (
-		<View
-			style={{
-				flexDirection: "row",
-				alignSelf: "stretch",
-				borderColor: "gray",
-				borderTopWidth: StyleSheet.hairlineWidth,
-				backgroundColor: "white",
-			}}
-		>
-			<TextInput
-				style={{
-					flex: 1,
-					fontSize: 20,
-					padding: 10,
-				}}
-				value={textEntered}
-				onChangeText={(text) => setTextEntered(text)}
-				autoCapitalize="words"
-			/>
-			<AddButton
-				onPress={() => {
-					onSubmit(textEntered);
-					setTextEntered("");
-				}}
-			/>
-		</View>
-	);
-}

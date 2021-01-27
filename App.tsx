@@ -49,11 +49,7 @@ export default function App() {
 				setActiveList(
 					(await getMyObject(await getMyStringValue("activeList"))) as List,
 				);
-				Promise.all(
-					keys
-						.filter((key) => key !== "activeList" && key !== "undefined")
-						.map((key) => getMyObject(key)),
-				).then((lists) => setAllLists(lists as List[]));
+				updateLists();
 			}
 		}
 		startup();
@@ -79,10 +75,21 @@ export default function App() {
 		if (!allLists.map((list) => list.title).includes(newKey)) {
 			setObjectValue(newKey, { id: newKey, title: newKey, items: [] });
 		}
+		updateLists();
 	}
 
 	function removeList(removedKey: string) {
 		removeValue(removedKey);
+		updateLists();
+	}
+
+	async function updateLists() {
+		let keys: string[] = await getAllKeys();
+		Promise.all(
+			keys
+				.filter((key) => key !== "activeList" && key !== "undefined")
+				.map((key) => getMyObject(key)),
+		).then((lists) => setAllLists(lists as List[]));
 	}
 
 	return (

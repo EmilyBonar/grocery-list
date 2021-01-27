@@ -11,6 +11,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
 import { ListOptionsScreenProps } from "./interfaces";
+import InputRow from "./InputRow";
 
 export default function ListOptionsScreen({
 	lists,
@@ -40,6 +41,7 @@ export default function ListOptionsScreen({
 					keyExtractor={(item, index) => item + index.toString()}
 				/>
 			</View>
+			<InputRow onSubmit={onSubmit} />
 		</View>
 	);
 }
