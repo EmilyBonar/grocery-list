@@ -37,6 +37,7 @@ export default function ListOptionsScreen({
 							onPress={(text: string) => onSwitch(text)}
 							text={item.id}
 							onDelete={onDelete}
+							details={[{ Items: item.items.length }]}
 						/>
 					)}
 					keyExtractor={(item, index) => item + index.toString()}
