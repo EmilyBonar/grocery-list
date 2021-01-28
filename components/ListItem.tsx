@@ -50,7 +50,11 @@ export default function ListItem({
 				<FlatList
 					style={{}}
 					data={detailsText}
-					renderItem={({ item, index, separators }) => <Text>{item}</Text>}
+					renderItem={({ item, index, separators }) => (
+						<Text style={{ textTransform: "capitalize", color: "gray" }}>
+							{item}
+						</Text>
+					)}
 					keyExtractor={(item, index) => item + index.toString()}
 				/>
 			</Pressable>
