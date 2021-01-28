@@ -55,6 +55,10 @@ export default function App() {
 		startup();
 	}, []);
 
+	useEffect(() => {
+		setObjectValue(activeList.id, activeList);
+	}, [activeList]);
+
 	function pushListItem(newItem: string) {
 		setActiveList({
 			id: activeList.id,
