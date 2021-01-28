@@ -30,6 +30,7 @@ const Stack = createStackNavigator();
 export default function App() {
 	const [activeList, setActiveList] = useState<List>({} as List);
 	const [allLists, setAllLists] = useState<List[]>([]);
+
 	useEffect(() => {
 		async function startup() {
 			//storage getAllKeys
@@ -40,7 +41,6 @@ export default function App() {
 					id: "Default List",
 					items: [],
 				};
-				setObjectValue(emptyList.id, emptyList);
 				setStringValue("activeList", "Default List");
 				setActiveList(emptyList);
 				setAllLists([emptyList]);
@@ -49,7 +49,12 @@ export default function App() {
 				setActiveList(
 					(await getMyObject(await getMyStringValue("activeList"))) as List,
 				);
-				updateLists();
+				let lists = await Promise.all(
+					keys
+						.filter((key) => key !== "activeList" && key !== "undefined")
+						.map((key) => getMyObject(key)),
+				);
+				setAllLists(lists as List[]);
 			}
 		}
 		startup();
@@ -58,6 +63,38 @@ export default function App() {
 	useEffect(() => {
 		setObjectValue(activeList.id, activeList);
 	}, [activeList]);
+	useEffect(() => {
+		async function syncLists() {
+			//treats local lists as source of truth
+			//storage getAllKeys
+			let storedKeys: string[] = (await getAllKeys()).filter(
+				(key) => key !== "activeList" && key !== "undefined",
+			);
+			let localKeys: string[] = allLists.map((list) => list.id);
+			console.log({ storedKeys, localKeys });
+			//get new lists
+			let newKeys: string[] = localKeys.filter(
+				(key) => !storedKeys.includes(key),
+			);
+			//get deleted lists
+			let deletedKeys: string[] = storedKeys.filter(
+				(key) => !localKeys.includes(key),
+			);
+			//make them match
+			newKeys.forEach((key) => {
+				let newList = findList(key);
+				if (newList) {
+					setObjectValue(key, newList);
+				}
+			});
+			deletedKeys.forEach((key) => {
+				removeValue(key);
+			});
+		}
+		if (allLists.length != 0) {
+			syncLists();
+		}
+	}, [allLists]);
 
 	function pushListItem(newItem: string) {
 		setActiveList({
@@ -74,24 +111,14 @@ export default function App() {
 	}
 
 	function pushList(newKey: string) {
-		if (!allLists.map((list) => list.id).includes(newKey)) {
-			setObjectValue(newKey, { id: newKey, title: newKey, items: [] });
+		setAllLists([...allLists, { id: newKey, items: [] }]);
+	}
+
+	async function removeList(removedKey: string) {
+		setAllLists(allLists.filter((list) => list.id !== removedKey));
+		if (activeList.id === removedKey) {
+			setActiveList(allLists[0]);
 		}
-		updateLists();
-	}
-
-	function removeList(removedKey: string) {
-		removeValue(removedKey);
-		updateLists();
-	}
-
-	async function updateLists() {
-		let keys: string[] = await getAllKeys();
-		Promise.all(
-			keys
-				.filter((key) => key !== "activeList" && key !== "undefined")
-				.map((key) => getMyObject(key)),
-		).then((lists) => setAllLists(lists as List[]));
 	}
 
 	function findList(searchKey: string): List | undefined {
@@ -109,16 +136,17 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			<Stack.Navigator
-				initialRouteName={activeList.id == undefined ? " " : activeList.id}
+				initialRouteName={activeList == null ? " " : activeList.id}
 			>
 				<Stack.Screen
-					name={activeList.id == undefined ? " " : activeList.id}
+					name="Active List"
 					options={({ navigation, route }) => ({
 						headerRight: () => (
 							<SettingsButton
 								onPress={() => navigation.navigate("List Options")}
 							/>
 						),
+						title: activeList == null ? " " : activeList.id,
 					})}
 				>
 					{(props) => (
