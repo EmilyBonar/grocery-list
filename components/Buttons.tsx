@@ -17,7 +17,7 @@ interface ButtonProps {
 export function DeleteButton({ onPress }: ButtonProps) {
 	return (
 		<Pressable style={{ width: 24, height: 24 }} onPress={() => onPress()}>
-			<Svg fill="none" viewBox="0 0 24 24" stroke="gray">
+			<Svg fill="none" viewBox="0 0 24 24" stroke="darkred">
 				<Path
 					strokeLinecap="round"
 					strokeLinejoin="round"
@@ -61,7 +61,7 @@ export function AddButton({ onPress }: ButtonProps) {
 			}}
 			style={{ width: 48, height: 48 }}
 		>
-			<Svg fill="none" viewBox="0 0 24 24" stroke="gray">
+			<Svg fill="none" viewBox="0 0 24 24" stroke="darkcyan">
 				<Path
 					strokeLinecap="round"
 					strokeLinejoin="round"

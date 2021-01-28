@@ -25,7 +25,7 @@ export default function ListScreen({
 					flex: 1,
 					alignSelf: "stretch",
 					flexDirection: "row",
-					backgroundColor: "lightgray",
+					backgroundColor: "powderblue",
 				}}
 			>
 				<FlatList
