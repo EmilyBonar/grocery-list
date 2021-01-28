@@ -24,14 +24,15 @@ export default function ListItem({
 			style={{
 				flexDirection: "row",
 				backgroundColor: "white",
-				margin: 10,
+				margin: 6,
 				padding: 10,
+				borderRadius: 5,
 			}}
 		>
 			<Pressable
 				onPress={() => onPress(text)}
 				onLongPress={() => {
-					if (onLongPress != undefined) {
+					if (onLongPress) {
 						onLongPress(text);
 					}
 				}}

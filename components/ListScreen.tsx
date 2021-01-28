@@ -33,7 +33,7 @@ export default function ListScreen({
 					data={list.items}
 					renderItem={({ item, index, separators }) => (
 						<ListItem
-							onPress={(text: string) => alert(text)}
+							onPress={(text: string) => console.log(text)}
 							text={item}
 							onDelete={onDelete}
 						/>
