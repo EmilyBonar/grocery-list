@@ -22,8 +22,13 @@ export interface InputRowProps {
 
 export interface ListItemProps {
 	text: string;
-	details?: object[];
+	details?: Details[];
 	onPress: Function;
 	onLongPress?: Function;
 	onDelete: Function;
+}
+
+export interface Details {
+	items?: number;
+	quantity?: number;
 }

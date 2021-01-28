@@ -10,7 +10,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import ListItem from "./ListItem";
-import { ListOptionsScreenProps } from "./interfaces";
+import { ListOptionsScreenProps, Details } from "./interfaces";
 import InputRow from "./InputRow";
 
 export default function ListOptionsScreen({
@@ -37,7 +37,7 @@ export default function ListOptionsScreen({
 							onPress={(text: string) => onSwitch(text)}
 							text={item.id}
 							onDelete={onDelete}
-							details={[{ Items: item.items.length }]}
+							details={[{ items: item.items.length }]}
 						/>
 					)}
 					keyExtractor={(item, index) => item + index.toString()}
